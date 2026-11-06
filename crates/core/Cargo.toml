@@ -1,0 +1,18 @@
+[package]
+name = "installwizard-core"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+sha2.workspace = true
+hex.workspace = true
+zip.workspace = true
+image.workspace = true
+editpe = { version = "0.2.4", default-features = false }
+unicode-normalization = "0.1"

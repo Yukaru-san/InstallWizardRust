@@ -1,0 +1,5 @@
+* text=auto eol=lf
+*.ttf binary
+*.exe binary
+# Preserve upstream license/notice text verbatim.
+assets/THIRD_PARTY_NOTICES.txt -whitespace

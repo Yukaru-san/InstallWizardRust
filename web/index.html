@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><title>InstallWizard — Creator</title>
+<style>html,body{margin:0;height:100%;background:#f6f8f8;color:#202d32;font:16px/1.6 system-ui,sans-serif}canvas{width:100%;height:100%;display:block;touch-action:manipulation}#loading{position:absolute;inset:0;display:grid;place-content:center;padding:24px}#loading p{max-width:40rem}a{color:#136b62}a:focus-visible{outline:3px solid #136b62;outline-offset:3px}::selection{background:#bfdfd8}#fallback{position:fixed;right:16px;bottom:12px;font-size:12px;background:#f6f8f8}</style></head>
+<body><div id="loading" role="status"><h1>InstallWizard</h1><p>Loading the Rust application…</p></div><canvas id="installwizard" aria-label="InstallWizard package creator"></canvas>
+<script type="module">
+import './bridge.js';
+import init,{start} from './pkg/installwizard.js';
+try{await init();await start('installwizard');document.getElementById('loading').remove()}catch(error){document.querySelector('#loading p').textContent='The application could not start. Check browser graphics support and reload. '+error.message}
+</script></body></html>

@@ -1,0 +1,14 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>InstallWizard</title><style>
+:root{font:16px/1.6 system-ui,sans-serif;color:#202d32;background:#f5f7f7;color-scheme:light}body{max-width:48rem;padding:clamp(20px,5vw,64px);margin:auto}main{background:white;padding:32px;border:1px solid #dce3e4;border-radius:12px}h1{font-size:2rem;line-height:1.2;margin:0 0 16px}p{color:#4b6067}a{display:inline-block;background:#136b62;color:white;padding:12px 22px;border-radius:6px;text-decoration:none}a:focus-visible{outline:3px solid #16443d;outline-offset:4px}li{overflow-wrap:anywhere}img{width:64px;height:64px;object-fit:contain;margin-bottom:16px}summary{cursor:pointer}#error{color:#a0272c}small{display:block;margin-top:20px;color:#4b6067}::selection{background:#bfdfd8;color:#173c36}</style>
+<main><img id="icon" alt="" hidden><h1 id="name">InstallWizard</h1><p id="description">Loading package details…</p><a href="payload.zip" download id="download">Download ZIP</a><details hidden id="details"><summary id="summary">Package contents</summary><ul id="files"></ul></details><p id="error" role="alert"></p></main>
+<noscript><p>Download the ZIP using the link above, then extract it to your preferred folder.</p></noscript>
+<script type="module">
+const de=navigator.language.startsWith('de');
+try { const response=await fetch('manifest.json');if(!response.ok)throw Error('Manifest could not be loaded');const m=await response.json();document.getElementById('name').textContent=m.name;document.title=m.name;
+document.documentElement.lang=de?'de':'en';document.getElementById('description').textContent=de?'Lade die ZIP-Datei herunter und entpacke sie in deinen gewünschten Ordner. Die enthaltene Ordnerstruktur bleibt erhalten.':'Download the ZIP and extract it to your preferred folder. The original folder structure is preserved.';
+const a=document.getElementById('download');a.textContent=de?'ZIP herunterladen':'Download ZIP';a.hidden=false;
+const summary=document.getElementById('summary');summary.textContent=(de?'Inhalt anzeigen':'Show contents')+' ('+m.entries.length+')';document.getElementById('details').hidden=false;
+const list=document.getElementById('files');for(const e of m.entries){const li=document.createElement('li');li.textContent=e.path+(e.directory?'/':'');list.append(li)}
+if(m.icon_png){const i=document.getElementById('icon');i.src='icon.png';i.hidden=false}
+}catch(error){document.getElementById('description').textContent='';document.getElementById('error').textContent=de?'Paket konnte nicht geladen werden. Bitte die Seite neu laden.':'Package could not be loaded. Please reload the page.';}
+</script></html>

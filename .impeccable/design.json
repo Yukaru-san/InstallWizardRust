@@ -1,0 +1,198 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-06T07:52:32.401605+00:00",
+  "title": "Design System: InstallWizard",
+  "extensions": {
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "Muted teal"
+      },
+      "canvas": {
+        "role": "neutral",
+        "displayName": "Rust panel canvas"
+      },
+      "content": {
+        "role": "neutral",
+        "displayName": "White content"
+      },
+      "control": {
+        "role": "neutral",
+        "displayName": "Neutral controls"
+      },
+      "text": {
+        "role": "neutral",
+        "displayName": "Body text"
+      },
+      "secondary-text": {
+        "role": "neutral",
+        "displayName": "Secondary text"
+      },
+      "hover": {
+        "role": "neutral",
+        "displayName": "Pale teal hover"
+      },
+      "error": {
+        "role": "semantic",
+        "displayName": "Rust error"
+      },
+      "success": {
+        "role": "semantic",
+        "displayName": "Rust completion"
+      },
+      "web-canvas": {
+        "role": "neutral",
+        "displayName": "HTML canvas"
+      },
+      "web-border": {
+        "role": "neutral",
+        "displayName": "HTML border"
+      },
+      "web-focus": {
+        "role": "semantic",
+        "displayName": "HTML keyboard focus"
+      },
+      "web-error": {
+        "role": "semantic",
+        "displayName": "HTML error"
+      },
+      "web-selection": {
+        "role": "neutral",
+        "displayName": "HTML selection"
+      },
+      "web-selection-text": {
+        "role": "neutral",
+        "displayName": "HTML selected text"
+      },
+      "control-text": {
+        "role": "neutral",
+        "displayName": "Inactive control text"
+      }
+    },
+    "typographyMeta": {
+      "headline": {
+        "displayName": "Rust heading",
+        "purpose": "Creator and extraction headings."
+      },
+      "title": {
+        "displayName": "Rust title",
+        "purpose": "Application bar and export summary, with strong emphasis."
+      },
+      "body": {
+        "displayName": "Rust body",
+        "purpose": "egui default proportional family with embedded renamed Noto Sans JP fallback."
+      },
+      "label": {
+        "displayName": "Rust button label",
+        "purpose": "Uses egui proportional typography."
+      },
+      "web-body": {
+        "displayName": "HTML body",
+        "purpose": "System font stack in the semantic download wizard."
+      },
+      "web-headline": {
+        "displayName": "HTML package heading",
+        "purpose": "Package name in the generated web wizard."
+      }
+    },
+    "shadows": [],
+    "motion": [],
+    "breakpoints": [
+      {
+        "name": "stack-source-mappings",
+        "value": "650px",
+        "condition": "Rust egui available UI width < 650; not browser viewport width."
+      }
+    ],
+    "focus": [
+      {
+        "name": "web-download-focus",
+        "value": "3px solid #16443d",
+        "offset": "4px",
+        "source": "web/wizard.html"
+      }
+    ],
+    "platformDefaults": {
+      "rust": "egui light widget radii, focus, stroke, disabled states and unspecified text styles remain framework defaults.",
+      "html": "Native disclosure focus and keyboard interaction remain browser defaults."
+    },
+    "provenance": {
+      "mode": "Operate",
+      "sources": [
+        "crates/app/src/ui.rs",
+        "web/wizard.html",
+        "PRODUCT.md"
+      ],
+      "componentSnippets": "Actual semantic HTML patterns only. Rust controls are documented in DESIGN.md; HTML imitations would not capture native egui behavior.",
+      "tonalRamps": "Not synthesized: the implementation defines role colors, not tonal scales.",
+      "reviewEvidence": [
+        ".impeccable/review/desktop.png",
+        ".impeccable/review/mobile.png",
+        ".impeccable/review/name.png",
+        ".impeccable/review/export-desktop.png",
+        ".impeccable/review/export-mobile.png",
+        ".impeccable/review/mapping-edited.png"
+      ],
+      "reviewDisposition": "Ship at fix-list scope: stale preview, source mapping labels, accessible label association and responsive wrapping resolved.",
+      "verificationLimits": [
+        "No browser screen-reader session.",
+        "No native GUI runtime session.",
+        "Context launcher unavailable; existing project context read directly."
+      ]
+    }
+  },
+  "components": [
+    {
+      "name": "HTML ZIP download",
+      "kind": "button",
+      "refersTo": "web-download",
+      "description": "Direct download anchor; remains usable without manifest scripting.",
+      "html": "<a class=\"ds-download\" href=\"payload.zip\" download>Download ZIP</a>",
+      "css": ".ds-download{display:inline-block;background:#136b62;color:white;padding:12px 22px;border-radius:6px;text-decoration:none;font:16px/1.6 system-ui,sans-serif}.ds-download:focus-visible{outline:3px solid #16443d;outline-offset:4px}"
+    },
+    {
+      "name": "HTML wizard container",
+      "kind": "card",
+      "refersTo": "web-container",
+      "description": "Flat bordered container for the generated web wizard.",
+      "html": "<main class=\"ds-container\"><h1>InstallWizard</h1><p>Download the ZIP and extract it to your preferred folder. The original folder structure is preserved.</p></main>",
+      "css": ".ds-container{background:white;padding:32px;border:1px solid #dce3e4;border-radius:12px;color:#202d32;font:16px/1.6 system-ui,sans-serif}.ds-container h1{font-size:2rem;line-height:1.2;margin:0 0 16px}.ds-container p{color:#4b6067}"
+    },
+    {
+      "name": "HTML package contents",
+      "kind": "custom",
+      "description": "Native disclosure with wrapping package paths. Sample path is illustrative.",
+      "html": "<details class=\"ds-contents\"><summary>Show contents (1)</summary><ul><li>assets/file.txt</li></ul></details>",
+      "css": ".ds-contents{font:16px/1.6 system-ui,sans-serif;color:#202d32}.ds-contents summary{cursor:pointer}.ds-contents li{overflow-wrap:anywhere}"
+    },
+    {
+      "name": "HTML error message",
+      "kind": "custom",
+      "description": "Textual manifest-load failure announced by an alert region.",
+      "html": "<p class=\"ds-error\" role=\"alert\">Package could not be loaded. Please reload the page.</p>",
+      "css": ".ds-error{color:#a0272c;font:16px/1.6 system-ui,sans-serif}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The File Workbench",
+    "overview": "The implemented interface is a quiet, light workbench: filenames, package paths and task controls carry the visual hierarchy. Teal identifies primary actions and selection; cool neutrals support readable forms and compact navigation. This documents the incumbent Rust egui interface and semantic HTML download wizard rather than a replacement identity.\n\nThe shared Rust UI serves the creator and a separate extraction view on native platforms; the browser creator uses the same egui design. The generated web wizard is a smaller semantic HTML surface with its own explicitly recorded spacing, type and background variations.",
+    "keyCharacteristics": [
+      "Light surfaces with restrained teal emphasis.",
+      "Visible source-to-package mappings and labelled fields.",
+      "Compact, wrapping controls and persistent status in the Rust UI.",
+      "A direct ZIP download and optional contents disclosure in the HTML wizard."
+    ],
+    "rules": [],
+    "dos": [
+      "Do preserve the distinction between source files and paths inside the package.",
+      "Do associate visible field labels with their controls and keep mapping labels in stacked layouts.",
+      "Do retain native egui behavior where this system has no explicit override.",
+      "Do preserve the HTML download link, semantic disclosure and visible keyboard focus."
+    ],
+    "donts": [
+      "Don't show a validated preview after a mapping change without checking structure again.",
+      "Don't substitute decorative imagery for file and path information.",
+      "Don't treat the HTML wizard's surface-specific tokens as exact Rust widget defaults."
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+/target/
+/dist/
+/templates/*
+!/templates/README.md
+/.impeccable/review/
+.DS_Store
+__pycache__/
+*.py[cod]
+node_modules/
+*.pdb
