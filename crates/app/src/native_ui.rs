@@ -22,7 +22,7 @@ pub struct NativeState {
 pub fn launch(package: Option<(PathBuf, Package)>) -> Result<()> {
     let options = eframe::NativeOptions {
         viewport: eframe::egui::ViewportBuilder::default()
-            .with_inner_size([1000.0, 760.0])
+            .with_inner_size([1080.0, 800.0])
             .with_min_inner_size([390.0, 520.0]),
         ..Default::default()
     };

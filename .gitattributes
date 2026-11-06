@@ -3,3 +3,4 @@
 *.exe binary
 # Preserve upstream license/notice text verbatim.
 assets/THIRD_PARTY_NOTICES.txt -whitespace
+assets/fonts/*OFL.txt -whitespace

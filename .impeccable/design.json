@@ -1,144 +1,187 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-06T07:52:32.401605+00:00",
+  "generatedAt": "2026-11-06T14:14:14.268101+00:00",
   "title": "Design System: InstallWizard",
   "extensions": {
     "colorMeta": {
       "primary": {
         "role": "primary",
-        "displayName": "Muted teal"
+        "displayName": "Action teal"
+      },
+      "primary-hover": {
+        "role": "primary",
+        "displayName": "Deep action teal"
+      },
+      "primary-soft": {
+        "role": "primary",
+        "displayName": "Pale selection teal"
       },
       "canvas": {
         "role": "neutral",
-        "displayName": "Rust panel canvas"
+        "displayName": "Cool workspace"
       },
-      "content": {
+      "surface": {
         "role": "neutral",
-        "displayName": "White content"
-      },
-      "control": {
-        "role": "neutral",
-        "displayName": "Neutral controls"
+        "displayName": "White sheet"
       },
       "text": {
         "role": "neutral",
-        "displayName": "Body text"
+        "displayName": "Dark text"
       },
-      "secondary-text": {
+      "muted": {
         "role": "neutral",
         "displayName": "Secondary text"
       },
-      "hover": {
+      "border": {
         "role": "neutral",
-        "displayName": "Pale teal hover"
+        "displayName": "Sheet border"
+      },
+      "input-border": {
+        "role": "neutral",
+        "displayName": "Input border"
       },
       "error": {
         "role": "semantic",
-        "displayName": "Rust error"
+        "displayName": "Error"
       },
       "success": {
         "role": "semantic",
-        "displayName": "Rust completion"
+        "displayName": "Completion"
       },
-      "web-canvas": {
+      "web-active": {
+        "role": "primary",
+        "displayName": "HTML pressed action"
+      },
+      "web-divider": {
         "role": "neutral",
-        "displayName": "HTML canvas"
-      },
-      "web-border": {
-        "role": "neutral",
-        "displayName": "HTML border"
-      },
-      "web-focus": {
-        "role": "semantic",
-        "displayName": "HTML keyboard focus"
-      },
-      "web-error": {
-        "role": "semantic",
-        "displayName": "HTML error"
+        "displayName": "HTML path divider"
       },
       "web-selection": {
         "role": "neutral",
-        "displayName": "HTML selection"
+        "displayName": "HTML text selection"
       },
       "web-selection-text": {
         "role": "neutral",
         "displayName": "HTML selected text"
-      },
-      "control-text": {
-        "role": "neutral",
-        "displayName": "Inactive control text"
       }
     },
     "typographyMeta": {
       "headline": {
         "displayName": "Rust heading",
-        "purpose": "Creator and extraction headings."
+        "purpose": "28px embedded renamed Inter semibold; creator and extraction headings."
       },
       "title": {
-        "displayName": "Rust title",
-        "purpose": "Application bar and export summary, with strong emphasis."
+        "displayName": "Rust section heading",
+        "purpose": "21px embedded renamed Inter semibold."
       },
       "body": {
         "displayName": "Rust body",
-        "purpose": "egui default proportional family with embedded renamed Noto Sans JP fallback."
+        "purpose": "Embedded renamed Inter regular with CJK fallback."
       },
       "label": {
-        "displayName": "Rust button label",
-        "purpose": "Uses egui proportional typography."
+        "displayName": "Rust control label",
+        "purpose": "Embedded renamed Inter semibold."
+      },
+      "caption": {
+        "displayName": "Rust caption",
+        "purpose": "Secondary help, source labels and status."
       },
       "web-body": {
         "displayName": "HTML body",
-        "purpose": "System font stack in the semantic download wizard."
+        "purpose": "System font stack in the standalone wizard."
       },
       "web-headline": {
         "displayName": "HTML package heading",
-        "purpose": "Package name in the generated web wizard."
+        "purpose": "28px, reduced to 26px at 480px viewport width."
       }
     },
     "shadows": [],
     "motion": [],
     "breakpoints": [
       {
+        "name": "rust-outer-narrow",
+        "value": "600px",
+        "condition": "Rust viewport width < 600 for outer margins; available UI width < 600 for sheet padding."
+      },
+      {
         "name": "stack-source-mappings",
         "value": "650px",
-        "condition": "Rust egui available UI width < 650; not browser viewport width."
+        "condition": "Rust available UI width < 650, not browser viewport width."
+      },
+      {
+        "name": "html-narrow",
+        "value": "480px",
+        "condition": "HTML wizard viewport width <= 480."
       }
     ],
     "focus": [
       {
-        "name": "web-download-focus",
-        "value": "3px solid #16443d",
+        "name": "rust-authored-controls",
+        "value": "2px solid #136b62",
+        "offset": "3px expanded bounds",
+        "source": "crates/app/src/components.rs"
+      },
+      {
+        "name": "web-interactive-focus",
+        "value": "3px solid #136b62",
         "offset": "4px",
         "source": "web/wizard.html"
       }
     ],
     "platformDefaults": {
-      "rust": "egui light widget radii, focus, stroke, disabled states and unspecified text styles remain framework defaults.",
-      "html": "Native disclosure focus and keyboard interaction remain browser defaults."
+      "rust": "Unspecified egui interaction, disabled and popup behavior remain framework-owned.",
+      "html": "Native disclosure keyboard behavior remains browser-owned."
     },
     "provenance": {
       "mode": "Operate",
       "sources": [
+        "PRODUCT.md",
+        "crates/app/src/theme.rs",
+        "crates/app/src/components.rs",
         "crates/app/src/ui.rs",
         "web/wizard.html",
-        "PRODUCT.md"
+        "web/index.html",
+        "assets/fonts/README.md",
+        "docs/CONTRAST.md",
+        "tools/check-contrast.py"
       ],
-      "componentSnippets": "Actual semantic HTML patterns only. Rust controls are documented in DESIGN.md; HTML imitations would not capture native egui behavior.",
-      "tonalRamps": "Not synthesized: the implementation defines role colors, not tonal scales.",
+      "componentSnippets": "Actual semantic HTML patterns only. Rust controls are described in DESIGN.md rather than imitated in HTML.",
+      "tonalRamps": "Not synthesized; current source defines role colors.",
       "reviewEvidence": [
-        ".impeccable/review/desktop.png",
-        ".impeccable/review/mobile.png",
-        ".impeccable/review/name.png",
-        ".impeccable/review/export-desktop.png",
-        ".impeccable/review/export-mobile.png",
-        ".impeccable/review/mapping-edited.png"
+        ".impeccable/review/modern/empty-desktop.png",
+        ".impeccable/review/modern/files-desktop.png",
+        ".impeccable/review/modern/files-mobile.png",
+        ".impeccable/review/modern/name-desktop.png",
+        ".impeccable/review/modern/export-desktop.png",
+        ".impeccable/review/modern/export-mobile.png",
+        ".impeccable/review/modern/busy.png",
+        ".impeccable/review/modern/error.png",
+        ".impeccable/review/modern/wizard-desktop.png",
+        ".impeccable/review/modern/wizard-mobile.png"
       ],
-      "reviewDisposition": "Ship at fix-list scope: stale preview, source mapping labels, accessible label association and responsive wrapping resolved.",
+      "reviewDisposition": "Shared Rust browser evidence and standalone HTML wizard reviewed at English desktop 1280x850 and German mobile 390x844. Independent review reported no material visual defect; missing-template recovery copy was addressed in EN/DE.",
       "verificationLimits": [
-        "No browser screen-reader session.",
-        "No native GUI runtime session.",
-        "Context launcher unavailable; existing project context read directly."
+        "Native GUI runtime and OS screen-reader behavior were not exercised.",
+        "Browser screen-reader session was not executed.",
+        "Impeccable context/detector launcher was unavailable; project context and source were read directly."
       ]
+    },
+    "contrast": {
+      "standard": "WCAG AA contrast targets for enabled content and controls",
+      "audit": "docs/CONTRAST.md",
+      "sourceCheck": "tools/check-contrast.py",
+      "targets": {
+        "normalText": "4.5:1",
+        "interactiveBoundaryAndFocus": "3:1"
+      },
+      "reportedMinimums": {
+        "normalText": "5.64:1",
+        "controlBoundary": "3.35:1",
+        "focusOnCanvas": "5.96:1"
+      },
+      "scope": "Source-token measurements for enabled normal, hover, pressed, selected, focus, error and success states. Disabled controls are excluded from these contrast requirements. Decorative dividers/artwork are not interactive boundaries.",
+      "stateMeaning": "Selected steps, export segments and language choices add a 1px teal outline; errors and completion retain explicit text and distinct icons.",
+      "limits": "Contrast measurements do not establish full WCAG conformance or verify screen-reader behavior."
     }
   },
   "components": [
@@ -146,53 +189,73 @@
       "name": "HTML ZIP download",
       "kind": "button",
       "refersTo": "web-download",
-      "description": "Direct download anchor; remains usable without manifest scripting.",
+      "description": "Direct ZIP download; remains available without manifest scripting.",
       "html": "<a class=\"ds-download\" href=\"payload.zip\" download>Download ZIP</a>",
-      "css": ".ds-download{display:inline-block;background:#136b62;color:white;padding:12px 22px;border-radius:6px;text-decoration:none;font:16px/1.6 system-ui,sans-serif}.ds-download:focus-visible{outline:3px solid #16443d;outline-offset:4px}"
+      "css": ".ds-download{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:44px;padding:10px 20px;background:#136b62;color:#fff;border-radius:8px;text-decoration:none;font:15px/1.6 system-ui,-apple-system,\"Segoe UI\",sans-serif;font-weight:600}.ds-download:hover{background:#0e574f}.ds-download:active{background:#09473f}.ds-download:focus-visible{outline:3px solid #136b62;outline-offset:4px}"
     },
     {
-      "name": "HTML wizard container",
+      "name": "HTML wizard sheet",
       "kind": "card",
       "refersTo": "web-container",
-      "description": "Flat bordered container for the generated web wizard.",
-      "html": "<main class=\"ds-container\"><h1>InstallWizard</h1><p>Download the ZIP and extract it to your preferred folder. The original folder structure is preserved.</p></main>",
-      "css": ".ds-container{background:white;padding:32px;border:1px solid #dce3e4;border-radius:12px;color:#202d32;font:16px/1.6 system-ui,sans-serif}.ds-container h1{font-size:2rem;line-height:1.2;margin:0 0 16px}.ds-container p{color:#4b6067}"
+      "description": "Flat bordered package container; responsive padding.",
+      "html": "<main class=\"ds-sheet\"><h1>InstallWizard</h1><p>Download the ZIP and extract it to your preferred folder. The original folder structure is preserved.</p></main>",
+      "css": ".ds-sheet{max-width:672px;padding:36px;background:#fff;color:#1c2830;border:1px solid #dde4e8;border-radius:14px;font:15px/1.6 system-ui,-apple-system,\"Segoe UI\",sans-serif;}.ds-sheet h1{margin:0 0 12px;font-size:28px;line-height:1.25;letter-spacing:-.025em;font-weight:600;overflow-wrap:anywhere}.ds-sheet p{margin:0;color:#53646e}@media(max-width:480px){.ds-sheet{padding:24px 20px}.ds-sheet h1{font-size:26px}}"
     },
     {
       "name": "HTML package contents",
       "kind": "custom",
-      "description": "Native disclosure with wrapping package paths. Sample path is illustrative.",
-      "html": "<details class=\"ds-contents\"><summary>Show contents (1)</summary><ul><li>assets/file.txt</li></ul></details>",
-      "css": ".ds-contents{font:16px/1.6 system-ui,sans-serif;color:#202d32}.ds-contents summary{cursor:pointer}.ds-contents li{overflow-wrap:anywhere}"
+      "description": "Native disclosure with wrapping paths. The sample path is illustrative.",
+      "html": "<details class=\"ds-contents\"><summary>Show contents</summary><ul><li>assets/file.txt</li></ul></details>",
+      "css": ".ds-contents{margin-top:28px;padding-top:20px;border-top:1px solid #dde4e8;color:#1c2830;font:15px/1.6 system-ui,-apple-system,\"Segoe UI\",sans-serif;}.ds-contents summary{min-height:36px;padding:4px 0;cursor:pointer;font-weight:600}.ds-contents summary:focus-visible{outline:3px solid #136b62;outline-offset:4px}.ds-contents ul{max-height:280px;overflow:auto;margin:12px 0 0;padding:0;list-style:none}.ds-contents li{padding:10px 0;border-bottom:1px solid #edf0f2;overflow-wrap:anywhere;font:13px/1.6 ui-monospace,monospace}"
     },
     {
       "name": "HTML error message",
       "kind": "custom",
       "description": "Textual manifest-load failure announced by an alert region.",
-      "html": "<p class=\"ds-error\" role=\"alert\">Package could not be loaded. Please reload the page.</p>",
-      "css": ".ds-error{color:#a0272c;font:16px/1.6 system-ui,sans-serif}"
+      "html": "<p class=\"ds-error\" role=\"alert\">Package details could not be loaded. You can still use the ZIP download above.</p>",
+      "css": ".ds-error{margin:16px 0 0;color:#9e242b;font:15px/1.6 system-ui,-apple-system,\"Segoe UI\",sans-serif;}"
+    },
+    {
+      "name": "HTML package identity",
+      "kind": "custom",
+      "description": "Authored decorative package stroke beside product identity.",
+      "html": "<header class=\"ds-brand\"><svg width=\"25\" height=\"25\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m12 2 8 4.4v11.2L12 22l-8-4.4V6.4L12 2Z\"/><path d=\"m4 6.4 8 4.4 8-4.4M12 10.8V22M8 4.2l8 4.4\"/></svg>InstallWizard</header>",
+      "css": ".ds-brand{display:flex;align-items:center;gap:10px;margin-bottom:28px;color:#1c2830;font:15px/1.6 system-ui,-apple-system,\"Segoe UI\",sans-serif;font-size:18px;font-weight:600}.ds-brand svg{color:#136b62}@media(max-width:480px){.ds-brand{margin-bottom:20px}}"
     }
   ],
   "narrative": {
     "northStar": "The File Workbench",
-    "overview": "The implemented interface is a quiet, light workbench: filenames, package paths and task controls carry the visual hierarchy. Teal identifies primary actions and selection; cool neutrals support readable forms and compact navigation. This documents the incumbent Rust egui interface and semantic HTML download wizard rather than a replacement identity.\n\nThe shared Rust UI serves the creator and a separate extraction view on native platforms; the browser creator uses the same egui design. The generated web wizard is a smaller semantic HTML surface with its own explicitly recorded spacing, type and background variations.",
+    "overview": "The existing product uses a clean, simple, modern workspace across supported platforms. Flat cool surfaces, visible file mappings, restrained teal actions and embedded Rust UI fonts support readable packaging and extraction. The standalone HTML wizard shares palette and shapes with semantic controls and system typography.",
     "keyCharacteristics": [
-      "Light surfaces with restrained teal emphasis.",
-      "Visible source-to-package mappings and labelled fields.",
-      "Compact, wrapping controls and persistent status in the Rust UI.",
-      "A direct ZIP download and optional contents disclosure in the HTML wizard."
+      "Flat colors with no gradients.",
+      "Centered bounded workspace and responsive mapping rows.",
+      "Embedded Inter regular/semibold and retained CJK fallback for shared Rust UI.",
+      "Explicit labels, visible focus and persistent status.",
+      "Preserved user-provided PNG/ICO artwork."
     ],
-    "rules": [],
+    "rules": [
+      {
+        "name": "Flat colors",
+        "body": "No gradients or decorative shadows.",
+        "section": "elevation"
+      },
+      {
+        "name": "Readable enabled states",
+        "body": "Maintain at least 4.5:1 normal-text contrast and 3:1 interactive-boundary/focus contrast. Preserve selected outlines and textual/icon state cues.",
+        "section": "colors"
+      }
+    ],
     "dos": [
-      "Do preserve the distinction between source files and paths inside the package.",
-      "Do associate visible field labels with their controls and keep mapping labels in stacked layouts.",
-      "Do retain native egui behavior where this system has no explicit override.",
-      "Do preserve the HTML download link, semantic disclosure and visible keyboard focus."
+      "Do reuse shared Rust tokens and components.",
+      "Do distinguish source files from package paths.",
+      "Do preserve EN/DE copy, CJK fallback, focus and cancellation.",
+      "Do preserve semantic HTML download/disclosure and user-provided icons.",
+      "Do retain AA contrast targets and update the source-token audit when changing palette values."
     ],
     "donts": [
-      "Don't show a validated preview after a mapping change without checking structure again.",
-      "Don't substitute decorative imagery for file and path information.",
-      "Don't treat the HTML wizard's surface-specific tokens as exact Rust widget defaults."
+      "Don't introduce a replacement brand identity.",
+      "Don't retain stale structure previews after mapping changes.",
+      "Don't equate HTML system fonts or focus widths with Rust defaults."
     ]
   }
 }

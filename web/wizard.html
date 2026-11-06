@@ -1,14 +1,119 @@
-<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>InstallWizard</title><style>
-:root{font:16px/1.6 system-ui,sans-serif;color:#202d32;background:#f5f7f7;color-scheme:light}body{max-width:48rem;padding:clamp(20px,5vw,64px);margin:auto}main{background:white;padding:32px;border:1px solid #dce3e4;border-radius:12px}h1{font-size:2rem;line-height:1.2;margin:0 0 16px}p{color:#4b6067}a{display:inline-block;background:#136b62;color:white;padding:12px 22px;border-radius:6px;text-decoration:none}a:focus-visible{outline:3px solid #16443d;outline-offset:4px}li{overflow-wrap:anywhere}img{width:64px;height:64px;object-fit:contain;margin-bottom:16px}summary{cursor:pointer}#error{color:#a0272c}small{display:block;margin-top:20px;color:#4b6067}::selection{background:#bfdfd8;color:#173c36}</style>
-<main><img id="icon" alt="" hidden><h1 id="name">InstallWizard</h1><p id="description">Loading package details…</p><a href="payload.zip" download id="download">Download ZIP</a><details hidden id="details"><summary id="summary">Package contents</summary><ul id="files"></ul></details><p id="error" role="alert"></p></main>
-<noscript><p>Download the ZIP using the link above, then extract it to your preferred folder.</p></noscript>
-<script type="module">
-const de=navigator.language.startsWith('de');
-try { const response=await fetch('manifest.json');if(!response.ok)throw Error('Manifest could not be loaded');const m=await response.json();document.getElementById('name').textContent=m.name;document.title=m.name;
-document.documentElement.lang=de?'de':'en';document.getElementById('description').textContent=de?'Lade die ZIP-Datei herunter und entpacke sie in deinen gewünschten Ordner. Die enthaltene Ordnerstruktur bleibt erhalten.':'Download the ZIP and extract it to your preferred folder. The original folder structure is preserved.';
-const a=document.getElementById('download');a.textContent=de?'ZIP herunterladen':'Download ZIP';a.hidden=false;
-const summary=document.getElementById('summary');summary.textContent=(de?'Inhalt anzeigen':'Show contents')+' ('+m.entries.length+')';document.getElementById('details').hidden=false;
-const list=document.getElementById('files');for(const e of m.entries){const li=document.createElement('li');li.textContent=e.path+(e.directory?'/':'');list.append(li)}
-if(m.icon_png){const i=document.getElementById('icon');i.src='icon.png';i.hidden=false}
-}catch(error){document.getElementById('description').textContent='';document.getElementById('error').textContent=de?'Paket konnte nicht geladen werden. Bitte die Seite neu laden.':'Package could not be loaded. Please reload the page.';}
-</script></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <link rel="icon" href="data:,">
+  <title>InstallWizard</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font: 15px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif;
+      color: #1c2830;
+      background: #f6f8f9;
+      --accent: #136b62;
+      --muted: #53646e;
+      --border: #dde4e8;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 36px 20px 48px; }
+    .brand, main { width: min(100%, 672px); margin-inline: auto; }
+    .brand { display: flex; align-items: center; gap: 10px; margin-bottom: 28px; font-size: 18px; font-weight: 600; }
+    .brand svg { color: var(--accent); }
+    main { padding: 36px; background: #fff; border: 1px solid var(--border); border-radius: 14px; }
+    .package-icon { display: grid; place-items: center; width: 64px; height: 64px; margin-bottom: 24px; background: #f6f8f9; border-radius: 12px; color: var(--muted); }
+    .package-icon img { width: 64px; height: 64px; object-fit: contain; border-radius: 12px; }
+    h1 { margin: 0 0 12px; font-size: 28px; line-height: 1.25; letter-spacing: -.025em; font-weight: 600; overflow-wrap: anywhere; }
+    p { margin: 0; color: var(--muted); }
+    #metadata { margin-top: 16px; font-size: 13px; }
+    .download { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 44px; margin-top: 28px; padding: 10px 20px; color: #fff; background: var(--accent); border-radius: 8px; font-weight: 600; text-decoration: none; }
+    .download:hover { background: #0e574f; }
+    .download:active { background: #09473f; }
+    :focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+    details { margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--border); }
+    summary { min-height: 36px; padding: 4px 0; cursor: pointer; font-weight: 600; }
+    ul { max-height: 280px; overflow: auto; margin: 12px 0 0; padding: 0; list-style: none; scrollbar-color: #7a8a93 #f6f8f9; scrollbar-width: thin; }
+    li { padding: 10px 0; border-bottom: 1px solid #edf0f2; overflow-wrap: anywhere; font: 13px/1.6 ui-monospace, monospace; }
+    #error { margin-top: 16px; color: #9e242b; }
+    #error:empty { display: none; }
+    noscript p { width: min(100%, 672px); margin: 20px auto 0; }
+    ::selection { background: #c8e5de; color: #173c36; }
+    [hidden] { display: none !important; }
+    @media (max-width: 480px) {
+      body { padding: 24px 16px; }
+      .brand { margin-bottom: 20px; }
+      main { padding: 24px 20px; }
+      h1 { font-size: 26px; }
+      .download { display: flex; }
+    }
+  </style>
+</head>
+<body>
+  <header class="brand" aria-label="InstallWizard">
+    <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="m12 2 8 4.4v11.2L12 22l-8-4.4V6.4L12 2Z"/><path d="m4 6.4 8 4.4 8-4.4M12 10.8V22M8 4.2l8 4.4"/></svg>
+    InstallWizard
+  </header>
+  <main>
+    <div class="package-icon">
+      <img id="icon" alt="" hidden>
+      <svg id="placeholder" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="m12 2 8 4.4v11.2L12 22l-8-4.4V6.4L12 2Z"/><path d="m4 6.4 8 4.4 8-4.4M12 10.8V22M8 4.2l8 4.4"/></svg>
+    </div>
+    <h1 id="name">InstallWizard</h1>
+    <p id="description">Download the ZIP and extract it to your preferred folder. The original folder structure is preserved.</p>
+    <p id="metadata" hidden></p>
+    <a class="download" href="payload.zip" download id="download">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/></svg>
+      <span id="download-label">Download ZIP</span>
+    </a>
+    <details hidden id="details">
+      <summary id="summary">Show contents</summary>
+      <ul id="files"></ul>
+    </details>
+    <p id="error" role="alert"></p>
+  </main>
+  <noscript><p>Download the ZIP using the link above, then extract it to your preferred folder.</p></noscript>
+  <script type="module">
+    const de = navigator.language.startsWith('de');
+    document.documentElement.lang = de ? 'de' : 'en';
+    document.getElementById('description').textContent = de
+      ? 'Lade die ZIP-Datei herunter und entpacke sie in deinen gewünschten Ordner. Die enthaltene Ordnerstruktur bleibt erhalten.'
+      : 'Download the ZIP and extract it to your preferred folder. The original folder structure is preserved.';
+    document.getElementById('download-label').textContent = de ? 'ZIP herunterladen' : 'Download ZIP';
+    try {
+      const response = await fetch('manifest.json');
+      if (!response.ok) throw Error('Manifest could not be loaded');
+      const manifest = await response.json();
+      document.getElementById('name').textContent = manifest.name;
+      document.title = manifest.name;
+      const total = manifest.entries.reduce((sum, entry) => sum + entry.size, 0);
+      const format = new Intl.NumberFormat(de ? 'de' : 'en', { maximumFractionDigits: 1 });
+      const size = total < 1000 ? `${total} B`
+        : total < 1_000_000 ? `${format.format(total / 1000)} KB`
+        : `${format.format(total / 1_000_000)} MB`;
+      const metadata = document.getElementById('metadata');
+      metadata.textContent = `${manifest.entries.length} ${de ? 'Einträge' : 'entries'} · ${size}`;
+      metadata.hidden = false;
+      document.getElementById('summary').textContent = de ? 'Inhalt anzeigen' : 'Show contents';
+      document.getElementById('details').hidden = false;
+      const list = document.createDocumentFragment();
+      for (const entry of manifest.entries) {
+        const item = document.createElement('li');
+        item.textContent = entry.path + (entry.directory ? '/' : '');
+        list.append(item);
+      }
+      document.getElementById('files').append(list);
+      if (manifest.icon_png) {
+        const icon = document.getElementById('icon');
+        icon.src = 'icon.png';
+        icon.hidden = false;
+        document.getElementById('placeholder').setAttribute('hidden', '');
+      }
+    } catch {
+      document.getElementById('error').textContent = de
+        ? 'Paketdetails konnten nicht geladen werden. Du kannst die ZIP-Datei weiterhin über den Download öffnen.'
+        : 'Package details could not be loaded. You can still use the ZIP download above.';
+    }
+  </script>
+</body>
+</html>

@@ -23,3 +23,11 @@ and show actionable errors. Native operations must remain cancellable.
 Constraints: shared Rust business logic and Rust UI; Impeccable design guidance;
 Windows, Linux, macOS x86-64 and ARM64; no GitHub Actions; no added AI attribution.
 English and German UI are supported. Dependency license obligations remain intact.
+
+Visual commitment: clean, simple and modern on every supported platform, with
+flat colors only and no gradients. Use the same embedded UI fonts and shared
+visual tokens for native and browser creator/extraction views.
+
+Contrast requirement: WCAG AA text contrast of at least 4.5:1, and at least 3:1
+for interactive boundaries and focus marks. Do not communicate state by color
+alone. Decorative separators are not input boundaries.

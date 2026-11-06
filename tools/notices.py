@@ -20,7 +20,8 @@ for package in sorted(metadata['packages'], key=lambda package: (package['name']
         if digest in seen: continue
         seen.add(digest)
         notices.append(f'\n{package["name"]}/{path.name}\n{text}\n')
-notices.append('\nBundled CJK font (derived from Noto Sans JP):\n' + (root / 'assets/fonts/OFL.txt').read_text())
+for license_file in sorted((root / 'assets/fonts').glob('*.txt')):
+    notices.append('\nBundled font license — ' + license_file.name + '\n' + license_file.read_text())
 output = root / 'assets' / 'THIRD_PARTY_NOTICES.txt'
 output.parent.mkdir(parents=True, exist_ok=True)
 output.write_text('\n'.join(notices))

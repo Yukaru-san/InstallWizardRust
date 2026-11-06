@@ -1,10 +1,41 @@
 <!doctype html>
 <html lang="en">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><title>InstallWizard — Creator</title>
-<style>html,body{margin:0;height:100%;background:#f6f8f8;color:#202d32;font:16px/1.6 system-ui,sans-serif}canvas{width:100%;height:100%;display:block;touch-action:manipulation}#loading{position:absolute;inset:0;display:grid;place-content:center;padding:24px}#loading p{max-width:40rem}a{color:#136b62}a:focus-visible{outline:3px solid #136b62;outline-offset:3px}::selection{background:#bfdfd8}#fallback{position:fixed;right:16px;bottom:12px;font-size:12px;background:#f6f8f8}</style></head>
-<body><div id="loading" role="status"><h1>InstallWizard</h1><p>Loading the Rust application…</p></div><canvas id="installwizard" aria-label="InstallWizard package creator"></canvas>
-<script type="module">
-import './bridge.js';
-import init,{start} from './pkg/installwizard.js';
-try{await init();await start('installwizard');document.getElementById('loading').remove()}catch(error){document.querySelector('#loading p').textContent='The application could not start. Check browser graphics support and reload. '+error.message}
-</script></body></html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <link rel="icon" href="data:,">
+  <title>InstallWizard — Creator</title>
+  <style>
+    html, body { margin: 0; height: 100%; background: #f6f8f9; color: #1c2830; font: 15px/1.6 system-ui, sans-serif; }
+    canvas { width: 100%; height: 100%; display: block; touch-action: manipulation; }
+    #loading { position: absolute; inset: 0; display: grid; place-content: center; padding: 28px; }
+    #loading h1 { margin: 0 0 12px; font-size: 24px; font-weight: 600; letter-spacing: -.025em; }
+    #loading p { margin: 0; max-width: 36rem; color: #53646e; }
+    #loading::before { content: ''; display: block; width: 56px; height: 4px; margin-bottom: 28px; border-radius: 2px; background: #136b62; }
+    ::selection { background: #c8e5de; color: #173c36; }
+  </style>
+</head>
+<body>
+  <main id="loading" role="status"><h1>InstallWizard</h1><p>Loading the application…</p></main>
+  <canvas id="installwizard" aria-label="InstallWizard package creator"></canvas>
+  <script type="module">
+    import './bridge.js';
+    import init, { start } from './pkg/installwizard.js';
+    const de = navigator.language.startsWith('de');
+    document.documentElement.lang = de ? 'de' : 'en';
+    const message = document.querySelector('#loading p');
+    message.textContent = de ? 'Die Anwendung wird geladen…' : 'Loading the application…';
+    try {
+      await init();
+      await start('installwizard');
+      document.getElementById('loading').remove();
+    } catch (error) {
+      message.textContent = (de
+        ? 'Die Anwendung konnte nicht starten. Prüfe die Grafikunterstützung deines Browsers und lade die Seite neu. '
+        : 'The application could not start. Check browser graphics support and reload. ')
+        + (error.message || String(error));
+    }
+  </script>
+</body>
+</html>

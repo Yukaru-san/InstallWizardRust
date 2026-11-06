@@ -4,6 +4,8 @@ A Rust rewrite of InstallWizard by **Yukaru-san**. Create a portable file
 installer, then extract its contents through a GUI or CLI. Native and browser
 creators share the package core and use a Rust UI.
 
+![InstallWizard creator](docs/screenshots/creator-desktop.png)
+
 ## Run
 
 Install stable Rust and a C/C++ toolchain for your platform. Then:
@@ -116,10 +118,15 @@ rollback of pre-existing files. SHA-256 detects damage, not publisher identity.
 
 ```sh
 cargo fmt --all --check
+python3 tools/check-contrast.py
 cargo clippy --workspace --all-targets -- -D warnings
 cargo test --workspace
 cargo check -p installwizard --lib --target wasm32-unknown-unknown
 ```
+
+The flat UI uses shared, embedded fonts on native and WASM targets. Contrast
+thresholds and measured results are in [docs/CONTRAST.md](docs/CONTRAST.md). Rebuild
+runtime templates after UI changes so generated installers include the updated UI.
 
 Architecture, format and style rules are in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 Platform runtime tests require the corresponding OS; a cross-compile check is
